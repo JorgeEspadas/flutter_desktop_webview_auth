@@ -78,6 +78,7 @@ class DesktopWebviewAuth {
     switch (call.method) {
       case 'onCallbackUrlReceived':
         final args = call.arguments.cast<String, dynamic>();
+        debugPrint(args.toString());
         final res = PlatformResponse.fromJson(args);
 
         if (res.flow == 'signIn') {
