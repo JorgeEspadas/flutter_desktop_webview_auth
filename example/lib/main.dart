@@ -18,9 +18,8 @@ typedef SignInCallback = Future<void> Function();
 const String apiKey = 'AIzaSyAgUhHU8wSJgO5MVNy95tMT07NEjzMOfz0';
 
 const GOOGLE_CLIENT_ID =
-    '448618578101-sg12d2qin42cpr00f8b0gehs5s7inm0v.apps.googleusercontent.com';
-const REDIRECT_URI =
-    'https://react-native-firebase-testing.firebaseapp.com/__/auth/handler';
+    '789192795158-ve6rv3rr7enu415eomanbqdr9hf3eerq.apps.googleusercontent.com';
+const REDIRECT_URI = 'https://admin-dot-metax-defi-00a-qa.uc.r.appspot.com';
 const TWITTER_API_KEY = 'YEXSiWv5UeCHyy0c61O2LBC3B';
 const TWITTER_API_SECRET_KEY =
     'DOd9dCCRFgtnqMDQT7A68YuGZtvcO4WP1mEFS4mEJAUooM4yaE';
@@ -88,7 +87,7 @@ class MyApp extends StatelessWidget {
                   GoogleSignInArgs(
                     clientId: GOOGLE_CLIENT_ID,
                     redirectUri: REDIRECT_URI,
-                    scope: 'https://www.googleapis.com/auth/plus.me '
+                    scope: 'https://www.googleapis.com/auth/userinfo.profile '
                         'https://www.googleapis.com/auth/userinfo.email',
                   ),
                 ),
@@ -126,8 +125,10 @@ class MyApp extends StatelessWidget {
                 ),
               ),
               ElevatedButton(
-                child: const Text('Recaptcha Verification'),
-                onPressed: () => getRecaptchaVerification(context),
+                child: const Text('Clear Cookies'),
+                onPressed: () async {
+                  await DesktopWebviewAuth.clearCookies();
+                },
               ),
             ];
 

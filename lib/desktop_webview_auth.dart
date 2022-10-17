@@ -5,6 +5,7 @@ import 'package:desktop_webview_auth/src/platform_response.dart';
 import 'package:desktop_webview_auth/src/recaptcha_args.dart';
 import 'package:desktop_webview_auth/src/recaptcha_result.dart';
 import 'package:desktop_webview_auth/src/recaptcha_verification_server.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'src/auth_result.dart';
@@ -39,6 +40,12 @@ class DesktopWebviewAuth {
       if (height != null) 'height': height.toInt(),
       ..._args,
     });
+  }
+
+  static _invokeNativeMethod<T>({
+    required String name,
+  }) async {
+    return _channel.invokeMethod<T>(name, {});
   }
 
   static Future<void> _invokeSignIn(
@@ -155,6 +162,14 @@ class DesktopWebviewAuth {
         return null;
       },
     );
+  }
+
+  static Future<void> clearCookies() async {
+    try {
+      await _invokeNativeMethod(name: 'clearCookies');
+    } catch (e) {
+      debugPrint('Something went wrong.');
+    }
   }
 
   static Future<AuthResult?> signIn(

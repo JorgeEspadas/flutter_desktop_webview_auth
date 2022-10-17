@@ -24,24 +24,13 @@ public class WebviewController: NSViewController, WKNavigationDelegate {
         
         view = webView
     }
-    
+
     func loadUrl(_ url: String) {
-        clearCookies()
-        
         let url = URL(string: url)!
         let request = URLRequest(url: url)
         (view as! WKWebView).load(request)
     }
     
-    func clearCookies() {
-        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-        
-        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
-            records.forEach { record in
-                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
-            }
-        }
-    }
     
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         
@@ -83,6 +72,12 @@ public class DesktopWebviewAuthPlugin: NSObject, FlutterPlugin {
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         switch call.method {
+
+        case "clearCookies":
+            clearCookies()
+            print("Cleared Cookies!")
+            result(nil)
+            break
         case "signIn":
             let args = call.arguments as! NSDictionary
 
@@ -158,5 +153,15 @@ public class DesktopWebviewAuthPlugin: NSObject, FlutterPlugin {
 
         webviewController.loadUrl(url)
         appWindow.contentViewController?.presentAsModalWindow(webviewController)
+    }
+
+    func clearCookies() {
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            records.forEach { record in
+                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+            }
+        }
     }
 }

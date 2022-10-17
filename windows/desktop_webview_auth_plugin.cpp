@@ -126,7 +126,7 @@ namespace {
 		break;
 		case WM_DESTROY:
 		{
-			ClearCookies();
+			//ClearCookies();
 			redirectUrl_ = "";
 			initialUrl_ = "";
 			webview_->remove_NavigationCompleted(navigationToken);
@@ -216,6 +216,12 @@ namespace {
 		optional<int> height = GetInt(args, "height");
 
 		methodName_ = method_call.method_name();
+
+		// CODE GOES HERE
+
+		if(methodName_.compare("clearCookies") == 0){
+			bool ClearCookies();
+		}
 
 		if (methodName_.compare("signIn") == 0) {
 
